@@ -1,52 +1,43 @@
 require 'package'
-
+  
 class Cairo < Package
   description 'Cairo is a 2D graphics library with support for multiple output devices.'
   homepage 'https://www.cairographics.org'
-  version '1.16.0'
+  version '1.17.4'
   compatibility 'all'
-  source_url 'https://www.cairographics.org/releases/cairo-1.16.0.tar.xz'
-  source_sha256 '5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331'
+  source_url 'https://cairographics.org/snapshots/cairo-1.17.4.tar.xz'
+  source_sha256 '74b24c1ed436bbe87499179a3b27c43f4143b8676d8ad237a6fa787401959705'
 
   binary_url ({
-    aarch64: 'https://dl.bintray.com/chromebrew/chromebrew/cairo-1.16.0-chromeos-armv7l.tar.xz',
-     armv7l: 'https://dl.bintray.com/chromebrew/chromebrew/cairo-1.16.0-chromeos-armv7l.tar.xz',
-       i686: 'https://dl.bintray.com/chromebrew/chromebrew/cairo-1.16.0-chromeos-i686.tar.xz',
-     x86_64: 'https://dl.bintray.com/chromebrew/chromebrew/cairo-1.16.0-chromeos-x86_64.tar.xz',
+     aarch64: 'https://dl.bintray.com/chromebrew/chromebrew/cairo-1.17.4-chromeos-armv7l.tar.xz',
+      armv7l: 'https://dl.bintray.com/chromebrew/chromebrew/cairo-1.17.4-chromeos-armv7l.tar.xz',
+        i686: 'https://dl.bintray.com/chromebrew/chromebrew/cairo-1.17.4-chromeos-i686.tar.xz',
+      x86_64: 'https://dl.bintray.com/chromebrew/chromebrew/cairo-1.17.4-chromeos-x86_64.tar.xz',
   })
   binary_sha256 ({
-    aarch64: '8c6ac7612bd9aac77a38fa2a6bc519ff3f0bc94e46cd3fd5d0f75c68e41876e4',
-     armv7l: '8c6ac7612bd9aac77a38fa2a6bc519ff3f0bc94e46cd3fd5d0f75c68e41876e4',
-       i686: '93e54aec50db4895b4897745b89d7f3876ba25fb1941333063fd1ec335a0977a',
-     x86_64: '0f0655202da77ecbcd2259a0f6367ac5f33fffb8e2af3698ea652967b2926461',
+     aarch64: '151bc64ba6689b0925e8215ef9b68e00701e157a958f2f3b1f43f92c6c1d034f',
+      armv7l: '151bc64ba6689b0925e8215ef9b68e00701e157a958f2f3b1f43f92c6c1d034f',
+        i686: 'c2ad484f2a0bb1469da8e5f6611ed04010b3eec59513d2898652e4fae4b6d708',
+      x86_64: 'd6e34c83bcdd4b336283381669d9a6aa528ae64a439e65a53d5c21f73a44c27d',
   })
 
   depends_on 'libpng'
   depends_on 'lzo'
   depends_on 'pixman'
   depends_on 'mesa'
+  depends_on 'gperf'
 
   def self.build
-    system './configure',
-           '--enable-ft',
-           '--enable-fc',
-           '--enable-xml',
-           '--enable-tee',
-           '--enable-xcb',
-           '--enable-egl',
-           '--enable-xlib',
-           '--enable-glesv3',
-           '--enable-gobject',
-           '--enable-pthread',
-           '--enable-xcb-shm',
-           '--enable-xlib-xcb',
-           '--enable-xlib-xrender',
-           "--prefix=#{CREW_PREFIX}",
-           "--libdir=#{CREW_LIB_PREFIX}"
-    system "make"
+    system "meson #{CREW_MESON_OPTIONS} \
+    -Dgl-backend=glesv3 \
+    -Dtests=disabled \
+    -Dtee=enabled \
+    builddir"
+    system "meson configure builddir"
+    system "ninja -C builddir"
   end
 
   def self.install
-    system "make", "DESTDIR=#{CREW_DEST_DIR}", "install"
+    system "DESTDIR=#{CREW_DEST_DIR} ninja -C builddir install"
   end
 end
