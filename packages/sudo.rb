@@ -18,13 +18,11 @@ class Sudo < Package
       x86_64: 'https://dl.bintray.com/chromebrew/chromebrew/sudo-1.9.5p2-chromeos-x86_64.tar.xz',
   })
   binary_sha256 ({
-     aarch64: '698a8d5386d111cc2697bffb06f1d832b894cb4ba2c5b8bb23517d2e91c2fbb0',
-      armv7l: '698a8d5386d111cc2697bffb06f1d832b894cb4ba2c5b8bb23517d2e91c2fbb0',
-        i686: '12a13e98965e11f8b10fae06027f7d398472cfa631160853e52d6ca30bb49fb3',
-      x86_64: '9b3f986086bed5f55d58061098d6f18e7e7795d0cfe41062cb795529d1a01d8f',
+     aarch64: '605fb51877541f644a2cc99e81e42ea81397ecce87eb75652c938a3cda695584',
+      armv7l: '605fb51877541f644a2cc99e81e42ea81397ecce87eb75652c938a3cda695584',
+        i686: 'cc3f8e9c3879216e866fdf8b32697a252af9541f7296fed5feffb15c402f7371',
+      x86_64: 'fc4c042f69ec1a20624679237a30af2e420ae59d3a3a17ee033d210373b02571',
   })
-
-  depends_on 'openldap'
 
   def self.patch
     system "sed -i \"s/CHMODIT=true/CHMODIT=false/g\" install-sh"
@@ -47,7 +45,7 @@ class Sudo < Package
       --enable-tmpfiles.d=/usr/lib/tmpfiles.d \
       --with-editor=/usr/libexec/editor \
       --with-env-editor \
-      --with-plugindir=/usr/lib#{CREW_LIB_SUFFIX}/sudo \
+      --with-plugindir=#{CREW_LIB_PREFIX}/sudo \
       --with-passprompt=\"[sudo] password for %p: \" \
       --enable-openssl \
       --without-linux-audit \
@@ -55,7 +53,8 @@ class Sudo < Package
       --with-all-insults \
       --with-exempt=chronos \
       --enable-pie \
-      --disable-log-client"
+      --disable-log-client \
+      --with-libpath=#{CREW_LIB_PREFIX}"
     system "make"
   end
   
@@ -82,7 +81,11 @@ class Sudo < Package
     # Performing post-install...
     # /usr/local/lib64/ruby/3.0.0/fileutils.rb:1355:in `chown': Operation not permitted @ apply2files - /usr/local/bin/sudo (Errno::EPERM)
     
-    puts "Settings permissions of #{CREW_PREFIX}/bin/sudo using system sudo".orange
-    system "/usr/bin/sudo chown root:root #{CREW_PREFIX}/bin/sudo && /usr/bin/sudo chmod u+s #{CREW_PREFIX}/bin/sudo"
+    puts "Settings permissions using system sudo".orange
+    system "/usr/bin/sudo chown root:root #{CREW_PREFIX}/bin/sudo"
+    system "/usr/bin/sudo chmod u+s #{CREW_PREFIX}/bin/sudo"
+    system "/usr/bin/sudo chown root:root #{CREW_LIB_PREFIX}/sudo/sudoers.so"
+    
+    system "/usr/bin/sudo  #{CREW_PREFIX}/sbin/ldconfig"
   end
 end
