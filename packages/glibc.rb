@@ -257,6 +257,7 @@ class Glibc < Package
       case ARCH
       when 'i686'
         File.write('glibc_223_i686.patch', @glibc_223_i686_patch)
+        puts 'patch -Np1 -i glibc_223_i686.patch' if @opt_verbose
         system 'patch -Np1 -i glibc_223_i686.patch'
       when 'armv7l', 'x86_64'
         @googlesource_branch = 'release-R91-13904.B'
