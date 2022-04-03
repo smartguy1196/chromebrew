@@ -218,7 +218,7 @@ function extract_install () {
     #extract and install
     echo_intra "Extracting ${1} ..."
     if [[ "$2" == *".zst" ]];then
-      LD_LIBRARY_PATH=${CREW_PREFIX}/lib${LIB_SUFFIX}:/lib${LIB_SUFFIX} tar -Izstd -xpf ../"${2}"
+      PATH=/usr/local/share/musl/bin:$PATH LD_LIBRARY_PATH=${CREW_PREFIX}/lib${LIB_SUFFIX}:/lib${LIB_SUFFIX} tar -Izstd -xpf ../"${2}"
     elif [[ "$2" == *".tpxz" ]];then
       if ! LD_LIBRARY_PATH=${CREW_PREFIX}/lib${LIB_SUFFIX}:/lib${LIB_SUFFIX} pixz -h &> /dev/null; then
         tar xpf ../"${2}"
