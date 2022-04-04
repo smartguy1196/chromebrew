@@ -26,9 +26,6 @@ ARCH="${ARCH/armv8l/armv7l}"
 # BOOTSTRAP_PACKAGES cannot depend on crew_profile_base for their core operations (completion scripts are fine)
 BOOTSTRAP_PACKAGES="musl_zstd pixz ca_certificates git gmp ncurses xxhash lz4 popt libyaml openssl zstd rsync ruby"
 
-# Add musl bin to path
-PATH=/usr/local/share/musl/bin:$PATH
-
 RED='\e[1;91m';    # Use Light Red for errors.
 YELLOW='\e[1;33m'; # Use Yellow for informational messages.
 GREEN='\e[1;32m';  # Use Green for success messages.
@@ -105,6 +102,11 @@ case "${ARCH}" in
   echo_error "Your device is not supported by Chromebrew yet :/"
   exit 1;;
 esac
+
+if ! LD_LIBRARY_PATH=${CREW_PREFIX}/lib${LIB_SUFFIX}:/lib${LIB_SUFFIX} zstd --version &> /dev/null; then 
+  # Non-working zstd, so add musl bin to path
+  PATH=/usr/local/share/musl/bin:$PATH
+fi
 
 echo_info "\n\nDoing initial setup for install in ${CREW_PREFIX}."
 echo_info "This may take a while if there are preexisting files in ${CREW_PREFIX}...\n"
@@ -218,7 +220,7 @@ function extract_install () {
     #extract and install
     echo_intra "Extracting ${1} ..."
     if [[ "$2" == *".zst" ]];then
-      PATH=/usr/local/share/musl/bin:$PATH LD_LIBRARY_PATH=${CREW_PREFIX}/lib${LIB_SUFFIX}:/lib${LIB_SUFFIX} tar -Izstd -xpf ../"${2}"
+      LD_LIBRARY_PATH=${CREW_PREFIX}/lib${LIB_SUFFIX}:/lib${LIB_SUFFIX} tar -Izstd -xpf ../"${2}"
     elif [[ "$2" == *".tpxz" ]];then
       if ! LD_LIBRARY_PATH=${CREW_PREFIX}/lib${LIB_SUFFIX}:/lib${LIB_SUFFIX} pixz -h &> /dev/null; then
         tar xpf ../"${2}"
