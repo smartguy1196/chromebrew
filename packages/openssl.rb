@@ -3,11 +3,10 @@ require 'package'
 class Openssl < Package
   description 'The Open Source toolkit for Secure Sockets Layer and Transport Layer Security'
   homepage 'https://www.openssl.org'
-  @_ver = '1.1.1q'
   version '1.1.1q-2'
   license 'openssl'
   compatibility 'all'
-  source_url "https://www.openssl.org/source/openssl-#{@_ver}.tar.gz"
+  source_url "https://www.openssl.org/source/openssl-1.1.1q.tar.gz"
   source_sha256 'd7939ce614029cdff0b6c20f0e2e5703158a489a72b2507b8bd51bf8c8fd10ca'
 
   binary_url({
