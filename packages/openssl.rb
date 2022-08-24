@@ -4,7 +4,7 @@ class Openssl < Package
   description 'The Open Source toolkit for Secure Sockets Layer and Transport Layer Security'
   homepage 'https://www.openssl.org'
   @_ver = '1.1.1q'
-  version "#{@_ver}-2"
+  version '1.1.1q-2'
   license 'openssl'
   compatibility 'all'
   source_url "https://www.openssl.org/source/openssl-#{@_ver}.tar.gz"
