@@ -3,7 +3,7 @@ require 'package'
 class Vulkan_icd_loader < Package
   description 'Vulkan Installable Client Driver ICD Loader'
   homepage 'https://github.com/KhronosGroup/Vulkan-Loader'
-  @_ver = '1.3.224'
+  @_ver = '1.3.229'
   version @_ver
   license 'Apache-2.0'
   compatibility 'all'
@@ -11,16 +11,16 @@ class Vulkan_icd_loader < Package
   git_hashtag "v#{@_ver}"
 
   binary_url({
-    aarch64: 'https://gitlab.com/api/v4/projects/26210301/packages/generic/vulkan_icd_loader/1.3.224_armv7l/vulkan_icd_loader-1.3.224-chromeos-armv7l.tar.zst',
-     armv7l: 'https://gitlab.com/api/v4/projects/26210301/packages/generic/vulkan_icd_loader/1.3.224_armv7l/vulkan_icd_loader-1.3.224-chromeos-armv7l.tar.zst',
-       i686: 'https://gitlab.com/api/v4/projects/26210301/packages/generic/vulkan_icd_loader/1.3.224_i686/vulkan_icd_loader-1.3.224-chromeos-i686.tar.zst',
-     x86_64: 'https://gitlab.com/api/v4/projects/26210301/packages/generic/vulkan_icd_loader/1.3.224_x86_64/vulkan_icd_loader-1.3.224-chromeos-x86_64.tar.zst'
+    aarch64: 'https://gitlab.com/api/v4/projects/26210301/packages/generic/vulkan_icd_loader/1.3.229_armv7l/vulkan_icd_loader-1.3.229-chromeos-armv7l.tar.zst',
+     armv7l: 'https://gitlab.com/api/v4/projects/26210301/packages/generic/vulkan_icd_loader/1.3.229_armv7l/vulkan_icd_loader-1.3.229-chromeos-armv7l.tar.zst',
+       i686: 'https://gitlab.com/api/v4/projects/26210301/packages/generic/vulkan_icd_loader/1.3.229_i686/vulkan_icd_loader-1.3.229-chromeos-i686.tar.zst',
+     x86_64: 'https://gitlab.com/api/v4/projects/26210301/packages/generic/vulkan_icd_loader/1.3.229_x86_64/vulkan_icd_loader-1.3.229-chromeos-x86_64.tar.zst'
   })
   binary_sha256({
-    aarch64: '15b9c5272c0a2a8adcafd5984da16738a3a7032479b38f9ce77a3b4ddaf187e5',
-     armv7l: '15b9c5272c0a2a8adcafd5984da16738a3a7032479b38f9ce77a3b4ddaf187e5',
-       i686: 'c0c0c5a6fed09d2515de58c8f2af31081133fe8bc292d445b7bf5ce8676a4239',
-     x86_64: '53fdaa92fb1e31410c6ebd50f1661f8b99b3a62a2f1bc33be123b2fff7a3f2da'
+    aarch64: '3be36f97ef53c0a3cac8c49a2ce56a2032164153e75c8c7d02c8a2f3ebda9235',
+     armv7l: '3be36f97ef53c0a3cac8c49a2ce56a2032164153e75c8c7d02c8a2f3ebda9235',
+       i686: '587c560fb00c00c5b00534108bd868accb5e5f92a0e55a4209b6ea7444da4e96',
+     x86_64: 'b8d152548a2240d956be41e237ee0ce134e5dbb829badf8ef104899cd31642bf'
   })
 
   depends_on 'libx11'
