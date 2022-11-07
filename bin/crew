@@ -1821,7 +1821,7 @@ def sysinfo_command(_args)
   git_commit_message_format = '%h `%s (%cr)`'
 
   puts <<~MD
-    - Architecture: `#{ARCH_ACTUAL}` (`#{ARCH}`)
+    - Architecture: `#{KERN_ARCH}` (`#{ARCH}`)
     - Kernel version: `#{`uname -r`.chomp}`
 
     - Chromebrew version: `#{CREW_VERSION}`
