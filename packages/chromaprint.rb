@@ -19,7 +19,7 @@ class Chromaprint < Package
     aarch64: '2af4152ec6d6ff7f1051173ed18c8cbd4a3e555751b4adf0528bec080c99ed2d',
      armv7l: '2af4152ec6d6ff7f1051173ed18c8cbd4a3e555751b4adf0528bec080c99ed2d',
        i686: '16a3f75458354abea8c4e037320999569b3d7fcbdb5c5185e2ec9d78af5647d0',
-     x86_64: '9960d30bc0f883a5da7a6be4a0f22e9deef622e65e1ddc9288bbedaef2170b85'
+     x86_64: 'ac0c32d428d3277d1ddfe389008b8452139e5c57a280ce7d0fe74e23ac50a517'
   })
 
   depends_on 'ffmpeg' # R
@@ -27,7 +27,7 @@ class Chromaprint < Package
   depends_on 'glibc' # R
 
   def self.build
-    system "cmake -B builddir -G Ninja #{CREW_CMAKE_OPTIONS} \
+    system "cmake -B builddir -G Ninja #{CREW_CMAKE_LIBSUFFIX_OPTIONS} \
       -DBUILD_TOOLS=ON \
       -DBUILD_TESTS=ON"
     system 'samu -C builddir'
